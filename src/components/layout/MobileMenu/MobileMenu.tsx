@@ -1,9 +1,12 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import { Icon } from "@/components/icons/Icon";
 import { getMobileNavRoot, type MobileNavNode } from "@/utils/mobileNav";
+import { useAuth, getInitials } from "@/context/AuthContext";
+import { ROUTES, withRedirect } from "@/constants/routes";
+import { PrimaryButton, SecondaryButton } from "@/components/ui/Button";
 import { cn } from "@/utils/cn";
 
 interface MobileMenuProps {
@@ -18,7 +21,9 @@ interface MenuLevel {
 
 export function MobileMenu({ open, onClose }: MobileMenuProps) {
   const router = useRouter();
-  const [stack, setStack] = useState<MenuLevel[]>(() => [{ items: getMobileNavRoot() }]);
+  const pathname = usePathname();
+  const { user, logout } = useAuth();
+  const [stack, setStack] = useState<MenuLevel[]>(() => [{ items: getMobileNavRoot(!!user) }]);
 
   // Reset the drill-down position each time the drawer transitions to open.
   // Adjusting state during render (React's recommended pattern for this)
@@ -26,7 +31,7 @@ export function MobileMenu({ open, onClose }: MobileMenuProps) {
   const [prevOpen, setPrevOpen] = useState(open);
   if (open !== prevOpen) {
     setPrevOpen(open);
-    if (open) setStack([{ items: getMobileNavRoot() }]);
+    if (open) setStack([{ items: getMobileNavRoot(!!user) }]);
   }
 
   useEffect(() => {
@@ -139,6 +144,47 @@ export function MobileMenu({ open, onClose }: MobileMenuProps) {
             })}
           </ul>
         </nav>
+
+        {/* Account section - only shown at the root level */}
+        {stack.length === 1 && (
+          <div className="border-t border-border-divider p-4">
+            {user ? (
+              <div className="flex items-center justify-between gap-3">
+                <div className="flex items-center gap-2.5 min-w-0">
+                  <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-account-pill text-[12px] font-bold text-white">
+                    {getInitials(user.name)}
+                  </span>
+                  <div className="min-w-0">
+                    <p className="text-[14px] font-semibold text-text-primary text-ellipsis-line">
+                      {user.name}
+                    </p>
+                    <p className="text-[12px] text-text-muted text-ellipsis-line">{user.company}</p>
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => {
+                    logout();
+                    onClose();
+                    router.push(ROUTES.home);
+                  }}
+                  className="shrink-0 text-[13px] font-semibold text-accent"
+                >
+                  Logout
+                </button>
+              </div>
+            ) : (
+              <div className="flex items-center gap-2">
+                <PrimaryButton href={withRedirect(ROUTES.login, pathname)} onClick={onClose} className="flex-1">
+                  Login
+                </PrimaryButton>
+                <SecondaryButton href={withRedirect(ROUTES.register, pathname)} onClick={onClose} className="flex-1">
+                  Create Account
+                </SecondaryButton>
+              </div>
+            )}
+          </div>
+        )}
       </aside>
     </>
   );

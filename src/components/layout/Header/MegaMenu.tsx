@@ -7,10 +7,7 @@ import { CATEGORY_TREE } from "@/constants/navigation";
 import { buildCategoryHref, toSelectionKey, ROUTES } from "@/constants/routes";
 import type { CategoryNode } from "@/types/category";
 import type { IconName } from "@/components/icons/Icon";
-import { useMediaQuery } from "@/hooks/useMediaQuery";
 import { cn } from "@/utils/cn";
-
-type ColumnKey = "col1" | "col2" | "col3";
 
 interface MegaMenuProps {
   onNavigate: () => void;
@@ -24,11 +21,6 @@ export function MegaMenu({ onNavigate }: MegaMenuProps) {
   const [activeL3Id, setActiveL3Id] = useState<string | undefined>(
     CATEGORY_TREE[0].children?.[0]?.children?.[0]?.id
   );
-  const [expandedCol, setExpandedCol] = useState<ColumnKey>("col1");
-
-  // Below ~1279px the three columns no longer all fit comfortably, so the
-  // hovered/touched column expands and the other two collapse to a 50px rail.
-  const isCompact = useMediaQuery("(max-width: 1279px)");
 
   const activeL1 = useMemo(
     () => CATEGORY_TREE.find((n) => n.id === activeL1Id) ?? CATEGORY_TREE[0],
@@ -50,7 +42,6 @@ export function MegaMenu({ onNavigate }: MegaMenuProps) {
     setActiveL1Id(node.id);
     setActiveL2Id(node.children?.[0]?.id);
     setActiveL3Id(node.children?.[0]?.children?.[0]?.id);
-    setExpandedCol("col1");
   }
 
   function selectL2(node: CategoryNode) {
@@ -63,12 +54,9 @@ export function MegaMenu({ onNavigate }: MegaMenuProps) {
   }
 
   return (
-    <div
-      className="absolute left-0 top-full z-30 w-[min(1200px,calc(100vw-32px))] max-w-[1200px] rounded-b-md border border-t-0 border-border-divider bg-white shadow-xl"
-      onMouseLeave={() => setExpandedCol("col1")}
-    >
+    <div className="absolute left-0 top-full z-30 w-full max-w-[1200px] rounded-b-md border border-t-0 border-border-divider bg-white shadow-xl">
       {/* Top row: 3 level-1 categories */}
-      <div className="flex items-stretch gap-2 overflow-x-auto thin-scrollbar border-b border-border-divider px-6 py-3">
+      <div className="flex flex-wrap items-stretch gap-2 border-b border-border-divider px-6 py-3">
         {CATEGORY_TREE.map((node) => (
           <button
             key={node.id}
@@ -94,41 +82,32 @@ export function MegaMenu({ onNavigate }: MegaMenuProps) {
         ))}
       </div>
 
-      {/* 3 cascading columns */}
-      <div className="flex h-[430px] divide-x divide-border-divider overflow-hidden">
+      {/* 3 cascading columns - always equal width; text wraps instead of
+          shrinking/expanding, which is what caused the flicker on narrow
+          viewports (rapid mouseenter/mouseleave loops as columns resized
+          under the cursor). */}
+      <div className="flex h-[430px] divide-x divide-border-divider">
         <MenuColumn
-          columnKey="col1"
           title={activeL1.label}
           items={col1Items}
           activeId={activeL2Id}
           path={[activeL1]}
-          isCompact={isCompact}
-          expandedCol={expandedCol}
-          onExpand={setExpandedCol}
           onHoverItem={selectL2}
           onNavigate={onNavigate}
         />
         <MenuColumn
-          columnKey="col2"
           title={activeL2?.label}
           items={col2Items}
           activeId={activeL3Id}
           path={activeL2 ? [activeL1, activeL2] : []}
-          isCompact={isCompact}
-          expandedCol={expandedCol}
-          onExpand={setExpandedCol}
           onHoverItem={selectL3}
           onNavigate={onNavigate}
         />
         <MenuColumn
-          columnKey="col3"
           title={activeL3?.label}
           items={col3Items}
           activeId={undefined}
           path={activeL3 ? [activeL1, activeL2!, activeL3] : []}
-          isCompact={isCompact}
-          expandedCol={expandedCol}
-          onExpand={setExpandedCol}
           onNavigate={onNavigate}
           isLeafColumn
         />
@@ -138,51 +117,27 @@ export function MegaMenu({ onNavigate }: MegaMenuProps) {
 }
 
 interface MenuColumnProps {
-  columnKey: ColumnKey;
   title?: string;
   items: CategoryNode[];
   activeId?: string;
   path: CategoryNode[];
-  isCompact: boolean;
-  expandedCol: ColumnKey;
-  onExpand: (col: ColumnKey) => void;
   onHoverItem?: (node: CategoryNode) => void;
   onNavigate: () => void;
   isLeafColumn?: boolean;
 }
 
 function MenuColumn({
-  columnKey,
   title,
   items,
   activeId,
   path,
-  isCompact,
-  expandedCol,
-  onExpand,
   onHoverItem,
   onNavigate,
   isLeafColumn,
 }: MenuColumnProps) {
-  const isExpanded = !isCompact || expandedCol === columnKey;
-
-  function handleColumnInteraction(e: React.SyntheticEvent) {
-    const target = e.target as HTMLElement;
-    if (target.closest("a")) return; // let the touch/click through to navigate
-    onExpand(columnKey);
-  }
-
   return (
-    <div
-      className={cn(
-        "flex flex-col overflow-y-auto py-4 transition-all duration-200 ease-out",
-        isExpanded ? "flex-1 min-w-[220px] px-5" : "w-[50px] shrink-0 px-1"
-      )}
-      onMouseEnter={() => !isCompact || onExpand(columnKey)}
-      onClick={handleColumnInteraction}
-      onTouchStart={handleColumnInteraction}
-    >
-      {isExpanded && title && (
+    <div className="flex flex-1 basis-0 min-w-0 flex-col overflow-y-auto px-4 py-4">
+      {title && (
         <h3 className="mb-3 text-[13px] font-bold uppercase tracking-wide underline underline-offset-2 text-text-primary">
           {title}
         </h3>
@@ -200,21 +155,17 @@ function MenuColumn({
                 onMouseEnter={() => !isLeafColumn && onHoverItem?.(node)}
                 onFocus={() => !isLeafColumn && onHoverItem?.(node)}
                 className={cn(
-                  "group flex items-center justify-between gap-2 rounded-md py-2 text-[14px] transition-colors hover:bg-surface-hover hover:font-semibold",
-                  isActive && "bg-surface-hover font-semibold",
-                  isExpanded ? "px-2" : "px-0 justify-center"
+                  "group flex items-center justify-between gap-2 rounded-md px-2 py-2 text-[14px] transition-colors hover:bg-surface-hover hover:font-semibold",
+                  isActive && "bg-surface-hover font-semibold"
                 )}
               >
-                <span className={cn(isExpanded ? "text-ellipsis-line" : "sr-only")}>
-                  {node.label}
-                </span>
+                <span className="break-words">{node.label}</span>
                 {hasChildren && (
                   <Icon
                     name="chevron-right"
                     className={cn(
                       "w-3.5 h-3.5 shrink-0 text-text-muted group-hover:text-accent",
-                      isActive && "text-accent",
-                      !isExpanded && "w-4 h-4"
+                      isActive && "text-accent"
                     )}
                   />
                 )}

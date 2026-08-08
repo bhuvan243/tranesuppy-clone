@@ -7,13 +7,27 @@ export const ROUTES = {
   helpCenter: "/help-center",
   contactUs: "/contact-us",
   login: "/login",
-  createAccount: "/create-account",
+  register: "/register",
+  createAccount: "/register",
   plp: "/plp",
   upl: "/upl",
   checkout: "/checkout",
   orders: "/orders",
+  supplierDirectory: "/supplier-directory",
   pdp: (id: string) => `/pdp/${id}`,
 };
+
+/**
+ * Builds a login/register href that remembers where the user came from, so
+ * a successful auth can send them back instead of always landing on home.
+ * Falls back silently (no query param) if there's nothing worth returning to.
+ */
+export function withRedirect(authPath: string, currentPath: string): string {
+  if (!currentPath || currentPath === ROUTES.login || currentPath === ROUTES.register) {
+    return authPath;
+  }
+  return `${authPath}?next=${encodeURIComponent(currentPath)}`;
+}
 
 /** camelCase selection key used on the category summary page, e.g. partsAndSupplies */
 export function toSelectionKey(id: string): string {

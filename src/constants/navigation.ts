@@ -12,6 +12,12 @@ export const NAV_ITEMS = [
   { label: "Contact Us", href: "/contact-us" },
 ] as const;
 
+/** Extra tab shown only once the user is logged in, appended after Contact Us. */
+export const LOGGED_IN_NAV_ITEMS = [
+  ...NAV_ITEMS,
+  { label: "Supplier Directory", href: "/supplier-directory" },
+] as const;
+
 export const LANGUAGES = [
   { code: "en", label: "English", short: "ENG" },
   { code: "fr", label: "Français", short: "FRA" },

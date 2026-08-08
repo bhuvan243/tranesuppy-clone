@@ -12,7 +12,7 @@ interface BaseProps {
 /** Solid black background, white text - used for the primary "Login" action. */
 export function PrimaryButton({ children, className, href, onClick }: BaseProps) {
   const classes = cn(
-    "flex items-center justify-center h-[45px] px-5 rounded-md bg-text-primary text-text-inverse text-[15px] font-semibold whitespace-nowrap transition-colors hover:bg-black/80",
+    "flex items-center justify-center h-[45px] px-5 rounded-md bg-text-primary text-white text-[15px] font-semibold whitespace-nowrap transition-colors hover:bg-black/80",
     className
   );
   if (href) {

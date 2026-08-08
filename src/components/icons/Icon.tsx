@@ -15,7 +15,12 @@ export type IconName =
   | "headset"
   | "parts"
   | "home-equipment"
-  | "commercial-equipment";
+  | "commercial-equipment"
+  | "cart"
+  | "building"
+  | "store"
+  | "bolt"
+  | "logout";
 
 interface IconProps {
   name: IconName;
