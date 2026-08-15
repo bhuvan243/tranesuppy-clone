@@ -13,6 +13,7 @@
 # testing
 /coverage
 /gen-ai-code-test
+/__RoughWork
 
 # next.js
 /.next/
