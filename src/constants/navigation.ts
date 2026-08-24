@@ -37,7 +37,7 @@ export const SEARCH_PLACEHOLDER_SUFFIXES = [
 	"Vendor Part Number",
 ];
 
-export const SEARCH_PLACEHOLDER_INTERVAL_MS = 800;
+export const SEARCH_PLACEHOLDER_INTERVAL_MS = 3000;
 
 /**
  * Shop By Category tree.

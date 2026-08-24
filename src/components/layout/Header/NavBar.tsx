@@ -57,7 +57,7 @@ export function NavBar() {
 									}
 									aria-expanded={megaMenuOpen}
 									className={cn(
-										"flex h-full items-center gap-1.5 px-4 text-[15px] font-semibold border-b-[3px] transition-colors",
+										"flex h-full items-center gap-1.5 px-4 text-[16px] font-semibold border-b-[3px] transition-colors",
 										isActive || megaMenuOpen
 											? "text-accent border-accent"
 											: "border-transparent text-text-primary hover:text-accent hover:border-accent",
@@ -88,7 +88,7 @@ export function NavBar() {
 							<Link
 								href={item.href}
 								className={cn(
-									"flex h-full items-center px-4 text-[15px] font-semibold border-b-[3px] transition-colors",
+									"flex h-full items-center px-4 text-[16px] font-semibold border-b-[3px] transition-colors",
 									isActive
 										? "text-accent border-accent"
 										: "border-transparent text-text-primary hover:text-accent hover:border-accent",

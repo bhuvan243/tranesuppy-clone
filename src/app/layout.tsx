@@ -4,8 +4,8 @@ import { LanguageProvider } from "@/context/LanguageContext";
 import { AuthProvider } from "@/context/AuthContext";
 
 export const metadata: Metadata = {
-  title: "HVACDirect",
-  description: "Shop HVAC parts, equipment, and supplies.",
+	title: "TraneSupply",
+	description: "Shop HVAC parts, equipment, and supplies.",
 };
 
 /**
@@ -15,13 +15,13 @@ export const metadata: Metadata = {
  * which live in the (auth) route group, render chrome-free.
  */
 export default function RootLayout({ children }: LayoutProps<"/">) {
-  return (
-    <html lang="en" className="h-full antialiased">
-      <body className="min-h-full flex flex-col">
-        <AuthProvider>
-          <LanguageProvider>{children}</LanguageProvider>
-        </AuthProvider>
-      </body>
-    </html>
-  );
+	return (
+		<html lang="en" className="h-full antialiased">
+			<body className="min-h-full flex flex-col">
+				<AuthProvider>
+					<LanguageProvider>{children}</LanguageProvider>
+				</AuthProvider>
+			</body>
+		</html>
+	);
 }
