@@ -151,7 +151,7 @@ export function ShippingAddressSelector({
 		<>
 			<button
 				type="button"
-				className="flex max-w-45 shrink-0 items-center gap-1.5 text-[14px] font-medium text-text-primary"
+				className="flex max-w-45 h-11 shrink-0 items-center gap-1.5 text-[14px] font-medium text-text-primary bg-[#E9E9E9] rounded-[16px] px-[12px] py-[8px]"
 				onClick={() => setOpen(true)}
 				aria-haspopup="dialog"
 				aria-expanded={open}

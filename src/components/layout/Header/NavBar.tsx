@@ -104,7 +104,7 @@ export function NavBar() {
 			{user ? (
 				<Link
 					href={ROUTES.checkout}
-					className="flex shrink-0 items-center gap-1.5 rounded-md bg-text-primary px-4 py-2 text-[14px] font-semibold text-white hover:bg-black/80 transition-colors"
+					className="flex shrink-0 items-center gap-1.5 rounded-[12px] bg-text-primary px-4 py-2 text-[14px] font-semibold text-white hover:bg-black/80 transition-colors"
 				>
 					<Icon name="bolt" className="w-4 h-4" />
 					Quick Order

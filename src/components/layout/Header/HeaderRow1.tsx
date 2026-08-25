@@ -48,13 +48,7 @@ export function HeaderRow1() {
 
 			{user ? (
 				<div className="flex shrink-0 items-center gap-3">
-					<div className="hidden lg:block">
-						<StoreSelector selected={store} onSelect={setStore} />
-					</div>
-					<span
-						className="hidden lg:block w-px h-6 bg-border-divider"
-						aria-hidden="true"
-					/>
+					<StoreSelector selected={store} onSelect={setStore} />
 					<ShippingAddressSelector
 						selected={shipTo}
 						onSelect={setShipTo}

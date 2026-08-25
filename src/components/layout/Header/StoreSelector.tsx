@@ -36,6 +36,31 @@ const STORES: StoreOption[] = [
 		address: "10431 S Tryon Street Huntersville, NC 28078",
 		distance: "18.6 miles",
 	},
+	{
+		name: "Concord Trane Supply",
+		address: "1234 Concord Rd, Concord, NC 28025",
+		distance: "22.5 miles",
+	},
+	{
+		name: "Gastonia Trane Supply",
+		address: "5678 Gastonia St, Gastonia, NC 28052",
+		distance: "30.2 miles",
+	},
+	{
+		name: "Rock Hill Trane Supply",
+		address: "9101 Rock Hill Ave, Rock Hill, SC 29730",
+		distance: "35.8 miles",
+	},
+	{
+		name: "Fort Mill Trane Supply",
+		address: "2345 Fort Mill Rd, Fort Mill, SC 29715",
+		distance: "40.1 miles",
+	},
+	{
+		name: "Mooresville Trane Supply",
+		address: "6789 Mooresville Blvd, Mooresville, NC 28117",
+		distance: "45.6 miles",
+	},
 ];
 
 export function StoreSelector({ selected, onSelect }: StoreSelectorProps) {
@@ -67,7 +92,7 @@ export function StoreSelector({ selected, onSelect }: StoreSelectorProps) {
 			<button
 				type="button"
 				onClick={() => setOpen(true)}
-				className="flex max-w-45 shrink-0 items-center gap-1.5 text-[14px] font-medium text-text-primary"
+				className="flex max-w-46 h-11 shrink-0 items-center gap-1.5 text-[14px] font-medium text-text-primary bg-[#E9E9E9] rounded-[16px] px-[12px] py-[8px]"
 				aria-haspopup="dialog"
 				aria-expanded={open}
 			>
@@ -105,7 +130,6 @@ export function StoreSelector({ selected, onSelect }: StoreSelectorProps) {
 						</header>
 						<div className="store-modal-body">
 							<label className="store-search">
-								<Search size={17} aria-hidden="true" />
 								<input
 									value={query}
 									onChange={(event) =>
@@ -114,6 +138,7 @@ export function StoreSelector({ selected, onSelect }: StoreSelectorProps) {
 									placeholder="Search by State, City or Zip Code"
 									aria-label="Search stores"
 								/>
+								<Search size={15} aria-hidden="true" />
 							</label>
 							<div className="store-modal-actions">
 								<button
