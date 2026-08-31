@@ -6,6 +6,7 @@ import { Icon } from "@/components/icons/Icon";
 interface ShippingAddressSelectorProps {
 	selected: string;
 	onSelect: (zip: string) => void;
+	className?: string;
 }
 
 interface ShippingAddress {
@@ -76,6 +77,7 @@ const EMPTY_FORM: AddressForm = {
 export function ShippingAddressSelector({
 	selected,
 	onSelect,
+	className = "",
 }: ShippingAddressSelectorProps) {
 	const [open, setOpen] = useState(false);
 	const [addresses, setAddresses] = useState(INITIAL_ADDRESSES);
@@ -150,7 +152,10 @@ export function ShippingAddressSelector({
 		<>
 			<button
 				type="button"
-				className="flex max-w-45 h-11 shrink-0 items-center gap-1.5 text-[14px] font-medium text-text-primary bg-[#E9E9E9] rounded-[16px] px-[12px] py-[8px]"
+				className={[
+					"flex max-w-45 h-11 shrink-0 items-center gap-1.5 text-[14px] font-medium text-text-primary bg-[#E9E9E9] rounded-[16px] px-[12px] py-[8px]",
+					className,
+				].join(" ")}
 				onClick={() => setOpen(true)}
 				aria-haspopup="dialog"
 				aria-expanded={open}

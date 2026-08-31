@@ -3,7 +3,7 @@
 import { useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Icon, type IconName } from "@/components/icons/Icon";
-import { useAuth, getInitials } from "@/context/AuthContext";
+import { useAuth, getInitials, isAdminUser } from "@/context/AuthContext";
 import { useClickOutside } from "@/hooks/useClickOutside";
 import { ROUTES } from "@/constants/routes";
 import { cn } from "@/utils/cn";
@@ -13,6 +13,7 @@ export function AccountMenu() {
 	const router = useRouter();
 	const [open, setOpen] = useState(false);
 	const ref = useRef<HTMLDivElement>(null);
+	const isAdmin = isAdminUser(user);
 	useClickOutside(ref, () => setOpen(false), open);
 
 	if (!user) return null;
@@ -29,6 +30,7 @@ export function AccountMenu() {
 		onClick?: () => void;
 	}> = [
 		{ label: "My Account", icon: "user" },
+		...(isAdmin ? [{ label: "Manage Users", icon: "user" as const }] : []),
 		{
 			label: "My Orders",
 			icon: "clipboard",
@@ -68,55 +70,86 @@ export function AccountMenu() {
 			</div>
 
 			{open && (
-				<div
-					role="menu"
-					className="account-menu absolute right-0 top-full z-30 mt-3 w-[280px] rounded-[16px] border border-[#E9E9E9] bg-white p-2 shadow-[0_3px_10px_rgba(0,0,0,0.16)]"
-				>
-					<div className="account-menu-profile">
-						<span className="account-menu-avatar">
-							{getInitials(user.name)}
-						</span>
-						<div>
-							<p className="text-[16px] font-medium">
-								{user.name}
-							</p>
-							<p className="text-[14px] text-muted-foreground">
-								{user.accountName || user.company}
-							</p>
+				<>
+					<div
+						className="account-menu-backdrop"
+						onClick={() => setOpen(false)}
+					/>
+					<div
+						role="menu"
+						className="account-menu"
+						onClick={(event) => event.stopPropagation()}
+					>
+						<div className="account-menu-inner">
+							<div className="account-menu-profile">
+								<span className="account-menu-avatar">
+									{getInitials(user.name)}
+								</span>
+								<div className="account-menu-profile-copy">
+									<div className="account-menu-name-row">
+										<p className="text-[16px] font-medium">
+											{user.name}
+										</p>
+									</div>
+									<p className="text-[14px] text-muted-foreground">
+										{user.accountName || user.company}
+									</p>
+									{isAdmin && (
+										<span className="account-menu-role">
+											Admin
+										</span>
+									)}
+								</div>
+								<button
+									type="button"
+									onClick={() => setOpen(false)}
+									aria-label="Close account menu"
+									className="account-menu-close"
+								>
+									<Icon name="close" className="h-5 w-5" />
+								</button>
+							</div>
+							<div className="account-menu-divider" />
+							<div className="account-menu-items">
+								{menuItems.map(
+									({ label, icon: menuIcon, onClick }) => (
+										<button
+											key={label}
+											type="button"
+											onClick={() => {
+												onClick?.();
+												setOpen(false);
+											}}
+											role="menuitem"
+											className="account-menu-item"
+										>
+											<Icon
+												name={menuIcon}
+												className="h-[18px] w-[18px]"
+											/>
+											<span>{label}</span>
+										</button>
+									),
+								)}
+							</div>
 						</div>
-					</div>
-					<div className="account-menu-divider" />
-					<div className="account-menu-items">
-						{menuItems.map(({ label, icon: menuIcon, onClick }) => (
+						<div className="account-menu-footer">
+							<div className="account-menu-divider" />
 							<button
-								key={label}
 								type="button"
-								onClick={() => {
-									onClick?.();
-									setOpen(false);
-								}}
+								onClick={handleLogout}
 								role="menuitem"
-								className="account-menu-item"
+								className="account-menu-item account-menu-logout"
 							>
 								<Icon
-									name={menuIcon}
-									className="h-[18px] w-[18px]"
+									name="logout"
+									className="h-[25px] w-[25px]"
 								/>
-								<span>{label}</span>
+								Log Out
 							</button>
-						))}
+						</div>
 					</div>
-					<div className="account-menu-divider" />
-					<button
-						type="button"
-						onClick={handleLogout}
-						role="menuitem"
-						className="account-menu-item account-menu-logout"
-					>
-						<Icon name="logout" className="h-[25px] w-[25px]" />
-						Log Out
-					</button>
-				</div>
+				</>
 			)}
 		</div>
 	);

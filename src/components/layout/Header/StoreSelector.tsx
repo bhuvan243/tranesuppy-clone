@@ -6,6 +6,7 @@ import { Icon } from "@/components/icons/Icon";
 interface StoreSelectorProps {
 	selected: string;
 	onSelect: (store: string) => void;
+	className?: string;
 }
 
 interface StoreOption {
@@ -155,7 +156,11 @@ const STORES: StoreOption[] = [
 	},
 ];
 
-export function StoreSelector({ selected, onSelect }: StoreSelectorProps) {
+export function StoreSelector({
+	selected,
+	onSelect,
+	className = "",
+}: StoreSelectorProps) {
 	const [open, setOpen] = useState(false);
 	const [query, setQuery] = useState("");
 	const [expanded, setExpanded] = useState<string | null>(null);
@@ -203,7 +208,10 @@ export function StoreSelector({ selected, onSelect }: StoreSelectorProps) {
 			<button
 				type="button"
 				onClick={() => setOpen(true)}
-				className="flex max-w-46 h-11 shrink-0 items-center gap-1.5 text-[14px] font-medium text-text-primary bg-[#E9E9E9] rounded-[16px] px-[12px] py-[8px]"
+				className={[
+					"flex max-w-46 h-11 shrink-0 items-center gap-1.5 text-[14px] font-medium text-text-primary bg-[#E9E9E9] rounded-[16px] px-[12px] py-[8px]",
+					className,
+				].join(" ")}
 				aria-haspopup="dialog"
 				aria-expanded={open}
 			>

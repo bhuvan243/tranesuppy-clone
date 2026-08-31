@@ -4,6 +4,7 @@ export interface DemoAccount {
 	name: string;
 	accountName: string;
 	company: string;
+	userType?: "admin" | "customer";
 	/** Default "ship to" zip shown in the logged-in header once signed in. */
 	shipToZip: string;
 }
@@ -16,6 +17,7 @@ export const DEMO_ACCOUNTS: DemoAccount[] = [
 		name: "John Doe",
 		accountName: "Lennox National Acct SRVS LLC -- old",
 		company: "Charlotte Trane Supply",
+		userType: "admin",
 		shipToZip: "07058",
 	},
 	{
@@ -24,6 +26,7 @@ export const DEMO_ACCOUNTS: DemoAccount[] = [
 		name: "Priya Shah",
 		accountName: "Lennox National Acct SRVS LLC -- new",
 		company: "Austin Trane Supply",
+		userType: "customer",
 		shipToZip: "73301",
 	},
 ];

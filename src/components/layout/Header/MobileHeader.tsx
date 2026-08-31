@@ -6,7 +6,8 @@ import { usePathname } from "next/navigation";
 import { Icon } from "@/components/icons/Icon";
 import { SearchBar } from "./SearchBar";
 import { LanguageDropdown } from "./LanguageDropdown";
-import { HeaderInfoDropdown } from "./HeaderInfoDropdown";
+import { StoreSelector } from "./StoreSelector";
+import { ShippingAddressSelector } from "./ShippingAddressSelector";
 import { AccountMenu } from "./AccountMenu";
 import { CartButton } from "./CartButton";
 import { PrimaryButton, SecondaryButton } from "@/components/ui/Button";
@@ -72,28 +73,21 @@ export function MobileHeader({ onOpenMenu }: MobileHeaderProps) {
 					<SearchBar className="w-full max-w-none" />
 
 					{/* Row 3: store + ship-to */}
-					<div className="flex items-center justify-between gap-3">
-						<HeaderInfoDropdown
-							icon="store"
-							value={store}
-							options={STORE_OPTIONS}
-							selected={store}
-							onSelect={setStore}
-							className="min-w-0 flex-1"
-						/>
-						<span
-							className="h-6 w-px shrink-0 bg-border-divider"
-							aria-hidden="true"
-						/>
-						<HeaderInfoDropdown
-							icon="pin"
-							label="Ship to"
-							value={shipTo}
-							options={SHIP_TO_OPTIONS}
-							selected={shipTo}
-							onSelect={setShipTo}
-							className="min-w-0 flex-1"
-						/>
+					<div className="flex w-[calc(100%+32px)] -mx-4 overflow-hidden rounded-none bg-[#E9E9E9] md:w-full md:mx-0 md:rounded-[16px]">
+						<div className="flex min-w-0 flex-1 border-r border-[#c7c7c7]">
+							<StoreSelector
+								selected={store}
+								onSelect={setStore}
+								className="h-[58px] w-full max-w-none rounded-none bg-transparent px-[14px] md:rounded-[16px]"
+							/>
+						</div>
+						<div className="flex min-w-0 flex-1">
+							<ShippingAddressSelector
+								selected={shipTo}
+								onSelect={setShipTo}
+								className="h-[58px] w-full max-w-none rounded-none bg-transparent px-[14px] md:rounded-[16px]"
+							/>
+						</div>
 					</div>
 				</>
 			) : (

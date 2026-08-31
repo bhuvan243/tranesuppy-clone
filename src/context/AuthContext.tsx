@@ -17,6 +17,16 @@ export interface AuthUser {
 	email: string;
 	company: string;
 	shipToZip: string;
+	userType?: string;
+	type?: string;
+}
+
+export function isAdminUser(user?: AuthUser | null): boolean {
+	const raw = (user?.userType ?? user?.type ?? "")
+		.toString()
+		.trim()
+		.toLowerCase();
+	return raw === "admin";
 }
 
 interface AuthContextValue {
@@ -81,6 +91,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 				email: match.email,
 				company: match.company,
 				shipToZip: match.shipToZip,
+				userType: match.userType ?? "customer",
 			});
 			return true;
 		},
@@ -94,6 +105,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 			company: string;
 			shipToZip: string;
 			accountName?: string;
+			userType?: string;
+			type?: string;
 		}) => {
 			// No API call - filling the form and submitting is enough to be "logged in".
 			persist({
@@ -102,6 +115,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 				email: data.email,
 				company: data.company,
 				shipToZip: data.shipToZip,
+				userType: data.userType ?? data.type ?? "customer",
 			});
 		},
 		[persist],
