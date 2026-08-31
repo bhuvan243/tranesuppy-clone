@@ -4,7 +4,7 @@ import { Suspense, useState, type FormEvent } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
-import { LockKeyhole, UserRound } from "lucide-react";
+import { Icon } from "@/components/icons/Icon";
 import { useAuth } from "@/context/AuthContext";
 import { ROUTES, withRedirect } from "@/constants/routes";
 
@@ -65,7 +65,7 @@ function LoginForm() {
 
 			<form onSubmit={handleSubmit} className="flex flex-col" noValidate>
 				<div className="login-field">
-					<UserRound size={14} strokeWidth={3} aria-hidden="true" />
+					<Icon name="user" className="h-3.5 w-3.5 text-[#666]" />
 					<input
 						id="email"
 						type="email"
@@ -77,7 +77,7 @@ function LoginForm() {
 					/>
 				</div>
 				<div className="login-field mt-1">
-					<LockKeyhole size={14} strokeWidth={3} aria-hidden="true" />
+					<Icon name="lock" className="h-3.5 w-3.5 text-[#666]" />
 					<input
 						id="password"
 						type="password"

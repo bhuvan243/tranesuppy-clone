@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Edit3, Plus, X } from "lucide-react";
 import { Icon } from "@/components/icons/Icon";
 
 interface ShippingAddressSelectorProps {
@@ -198,7 +197,10 @@ export function ShippingAddressSelector({
 										onClick={() => setOpen(false)}
 										aria-label="Close shipping address selector"
 									>
-										<X size={18} />
+										<Icon
+											name="close"
+											className="h-[18px] w-[18px]"
+										/>
 									</button>
 								</header>
 								<div className="address-modal-body">
@@ -207,7 +209,11 @@ export function ShippingAddressSelector({
 										className="address-add-button"
 										onClick={startAdd}
 									>
-										<Plus size={15} /> Add a New Address
+										<Icon
+											name="plus"
+											className="h-[15px] w-[15px]"
+										/>{" "}
+										Add a New Address
 									</button>
 									<p className="address-info">
 										Select a shipping address from your
@@ -260,7 +266,11 @@ export function ShippingAddressSelector({
 													}
 													aria-label={`Edit ${address.name}`}
 												>
-													<Edit3 size={14} /> Edit
+													<Icon
+														name="edit"
+														className="h-[14px] w-[14px]"
+													/>{" "}
+													Edit
 												</button>
 											</article>
 										))}
@@ -337,7 +347,7 @@ function AddressEditor({
 					onClick={onCancel}
 					aria-label="Close address editor"
 				>
-					<X size={18} />
+					<Icon name="close" className="h-[18px] w-[18px]" />
 				</button>
 			</header>
 			<div className="address-editor-body">

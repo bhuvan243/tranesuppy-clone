@@ -12,7 +12,7 @@ import {
 import { DEMO_ACCOUNTS } from "@/constants/auth";
 
 export interface AuthUser {
-	accountName: ReactNode;
+	accountName?: string;
 	name: string;
 	email: string;
 	company: string;
@@ -76,6 +76,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 			);
 			if (!match) return false;
 			persist({
+				accountName: match.accountName,
 				name: match.name,
 				email: match.email,
 				company: match.company,
@@ -92,9 +93,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 			email: string;
 			company: string;
 			shipToZip: string;
+			accountName?: string;
 		}) => {
 			// No API call - filling the form and submitting is enough to be "logged in".
-			persist(data);
+			persist({
+				accountName: data.accountName ?? data.company,
+				name: data.name,
+				email: data.email,
+				company: data.company,
+				shipToZip: data.shipToZip,
+			});
 		},
 		[persist],
 	);

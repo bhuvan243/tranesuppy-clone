@@ -1,18 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import {
-	ChevronUp,
-	Clock3,
-	Copy,
-	LocateFixed,
-	Navigation,
-	Phone,
-	RotateCcw,
-	Search,
-	Store,
-	X,
-} from "lucide-react";
 import { Icon } from "@/components/icons/Icon";
 
 interface StoreSelectorProps {
@@ -248,7 +236,7 @@ export function StoreSelector({ selected, onSelect }: StoreSelectorProps) {
 								onClick={() => setOpen(false)}
 								aria-label="Close store selector"
 							>
-								<X size={20} />
+								<Icon name="close" className="h-5 w-5" />
 							</button>
 						</header>
 						<div className="store-modal-body">
@@ -261,14 +249,20 @@ export function StoreSelector({ selected, onSelect }: StoreSelectorProps) {
 									placeholder="Search by State, City or Zip Code"
 									aria-label="Search stores"
 								/>
-								<Search size={15} aria-hidden="true" />
+								<Icon
+									name="search"
+									className="h-[15px] w-[15px]"
+								/>
 							</label>
 							<div className="store-modal-actions">
 								<button
 									type="button"
 									className="store-outline-button"
 								>
-									<LocateFixed size={15} />
+									<Icon
+										name="map-pin"
+										className="h-[15px] w-[15px]"
+									/>
 									Locate Me
 								</button>
 								<div>
@@ -277,14 +271,20 @@ export function StoreSelector({ selected, onSelect }: StoreSelectorProps) {
 										className="store-outline-button"
 										onClick={() => setQuery("")}
 									>
-										<RotateCcw size={14} />
+										<Icon
+											name="rotate-ccw"
+											className="h-[14px] w-[14px]"
+										/>
 										Reset
 									</button>
 									<button
 										type="button"
 										className="store-search-button"
 									>
-										<Search size={14} />
+										<Icon
+											name="search"
+											className="h-[14px] w-[14px]"
+										/>
 										Search
 									</button>
 								</div>
@@ -306,9 +306,9 @@ export function StoreSelector({ selected, onSelect }: StoreSelectorProps) {
 										>
 											<div className="store-result-copy">
 												<h3>
-													<Store
-														size={14}
-														fill="currentColor"
+													<Icon
+														name="store"
+														className="h-[14px] w-[14px]"
 													/>
 													{store.name}
 												</h3>
@@ -335,7 +335,10 @@ export function StoreSelector({ selected, onSelect }: StoreSelectorProps) {
 															: "Show More"}
 													</span>
 													{expanded === store.name ? (
-														<ChevronUp size={12} />
+														<Icon
+															name="chevron-up"
+															className="h-3 w-3"
+														/>
 													) : (
 														<Icon
 															name="chevron-down"
@@ -347,8 +350,9 @@ export function StoreSelector({ selected, onSelect }: StoreSelectorProps) {
 													<div className="store-more-panel">
 														<div className="store-more-row">
 															<span className="store-more-label">
-																<Phone
-																	size={12}
+																<Icon
+																	name="phone"
+																	className="h-[12px] w-[12px]"
 																/>
 																Contact Number
 															</span>
@@ -377,10 +381,9 @@ export function StoreSelector({ selected, onSelect }: StoreSelectorProps) {
 																			✓
 																		</span>
 																	) : (
-																		<Copy
-																			size={
-																				12
-																			}
+																		<Icon
+																			name="copy"
+																			className="h-[12px] w-[12px]"
 																		/>
 																	)}
 																</button>
@@ -388,8 +391,9 @@ export function StoreSelector({ selected, onSelect }: StoreSelectorProps) {
 														</div>
 														<div className="store-more-row">
 															<span className="store-more-label">
-																<Clock3
-																	size={12}
+																<Icon
+																	name="clock"
+																	className="h-[12px] w-[12px]"
 																/>
 																Open / Closed
 															</span>
@@ -410,8 +414,9 @@ export function StoreSelector({ selected, onSelect }: StoreSelectorProps) {
 														</div>
 														<div className="store-more-row">
 															<span className="store-more-label">
-																<Clock3
-																	size={12}
+																<Icon
+																	name="clock"
+																	className="h-[12px] w-[12px]"
 																/>
 																Hours
 															</span>
@@ -434,8 +439,9 @@ export function StoreSelector({ selected, onSelect }: StoreSelectorProps) {
 																rel="noopener noreferrer"
 																className="store-direction-link"
 															>
-																<Navigation
-																	size={12}
+																<Icon
+																	name="navigation"
+																	className="h-[12px] w-[12px]"
 																/>
 																<span>
 																	Get

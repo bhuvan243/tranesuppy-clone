@@ -2,17 +2,7 @@
 
 import { useRef, useState } from "react";
 import { useRouter } from "next/navigation";
-import {
-	Bookmark,
-	BriefcaseBusiness,
-	ClipboardList,
-	LockKeyhole,
-	LogOut,
-	Package,
-	ShoppingCart,
-	UserRound,
-} from "lucide-react";
-import { Icon } from "@/components/icons/Icon";
+import { Icon, type IconName } from "@/components/icons/Icon";
 import { useAuth, getInitials } from "@/context/AuthContext";
 import { useClickOutside } from "@/hooks/useClickOutside";
 import { ROUTES } from "@/constants/routes";
@@ -33,18 +23,22 @@ export function AccountMenu() {
 		router.push(ROUTES.home);
 	}
 
-	const menuItems = [
-		{ label: "My Account", icon: UserRound },
+	const menuItems: Array<{
+		label: string;
+		icon: IconName;
+		onClick?: () => void;
+	}> = [
+		{ label: "My Account", icon: "user" },
 		{
 			label: "My Orders",
-			icon: Package,
+			icon: "clipboard",
 			onClick: () => router.push(ROUTES.orders),
 		},
-		{ label: "My Quotes", icon: ClipboardList },
-		{ label: "My Saved Carts", icon: ShoppingCart },
-		{ label: "My Job Lists", icon: Bookmark },
-		{ label: "My Stocking Lists", icon: BriefcaseBusiness },
-		{ label: "Change Password", icon: LockKeyhole },
+		{ label: "My Quotes", icon: "clipboard" },
+		{ label: "My Saved Carts", icon: "cart" },
+		{ label: "My Job Lists", icon: "bookmark" },
+		{ label: "My Stocking Lists", icon: "briefcase" },
+		{ label: "Change Password", icon: "lock" },
 	];
 
 	return (
@@ -93,7 +87,7 @@ export function AccountMenu() {
 					</div>
 					<div className="account-menu-divider" />
 					<div className="account-menu-items">
-						{menuItems.map(({ label, icon: MenuIcon, onClick }) => (
+						{menuItems.map(({ label, icon: menuIcon, onClick }) => (
 							<button
 								key={label}
 								type="button"
@@ -104,10 +98,9 @@ export function AccountMenu() {
 								role="menuitem"
 								className="account-menu-item"
 							>
-								<MenuIcon
-									size={18}
-									strokeWidth={2.5}
-									aria-hidden="true"
+								<Icon
+									name={menuIcon}
+									className="h-[18px] w-[18px]"
 								/>
 								<span>{label}</span>
 							</button>
@@ -120,11 +113,7 @@ export function AccountMenu() {
 						role="menuitem"
 						className="account-menu-item account-menu-logout"
 					>
-						<LogOut
-							size={25}
-							strokeWidth={2.5}
-							aria-hidden="true"
-						/>
+						<Icon name="logout" className="h-[25px] w-[25px]" />
 						Log Out
 					</button>
 				</div>

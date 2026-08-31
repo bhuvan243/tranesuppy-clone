@@ -2,30 +2,43 @@ import type { CSSProperties } from "react";
 import { cn } from "@/utils/cn";
 
 export type IconName =
-  | "search"
-  | "camera"
-  | "chevron-down"
-  | "chevron-right"
-  | "chevron-left"
-  | "globe"
-  | "menu"
-  | "close"
-  | "user"
-  | "pin"
-  | "headset"
-  | "parts"
-  | "home-equipment"
-  | "commercial-equipment"
-  | "cart"
-  | "building"
-  | "store"
-  | "bolt"
-  | "logout";
+	| "search"
+	| "camera"
+	| "chevron-down"
+	| "chevron-right"
+	| "chevron-left"
+	| "chevron-up"
+	| "globe"
+	| "menu"
+	| "close"
+	| "user"
+	| "pin"
+	| "headset"
+	| "parts"
+	| "home-equipment"
+	| "commercial-equipment"
+	| "cart"
+	| "building"
+	| "store"
+	| "bolt"
+	| "logout"
+	| "bookmark"
+	| "briefcase"
+	| "clipboard"
+	| "clock"
+	| "copy"
+	| "edit"
+	| "lock"
+	| "map-pin"
+	| "navigation"
+	| "phone"
+	| "plus"
+	| "rotate-ccw";
 
 interface IconProps {
-  name: IconName;
-  /** Always include a width/height utility (e.g. "w-4 h-4 md:w-5 md:h-5"). */
-  className?: string;
+	name: IconName;
+	/** Always include a width/height utility (e.g. "w-4 h-4 md:w-5 md:h-5"). */
+	className?: string;
 }
 
 /**
@@ -39,23 +52,26 @@ interface IconProps {
  * icon can be a different size on desktop vs mobile per the spec.
  */
 export function Icon({ name, className }: IconProps) {
-  const maskUrl = `url(/icons/${name}.svg)`;
-  const style: CSSProperties = {
-    WebkitMaskImage: maskUrl,
-    maskImage: maskUrl,
-    WebkitMaskRepeat: "no-repeat",
-    maskRepeat: "no-repeat",
-    WebkitMaskPosition: "center",
-    maskPosition: "center",
-    WebkitMaskSize: "contain",
-    maskSize: "contain",
-  };
+	const maskUrl = `url(/icons/${name}.svg)`;
+	const style: CSSProperties = {
+		WebkitMaskImage: maskUrl,
+		maskImage: maskUrl,
+		WebkitMaskRepeat: "no-repeat",
+		maskRepeat: "no-repeat",
+		WebkitMaskPosition: "center",
+		maskPosition: "center",
+		WebkitMaskSize: "contain",
+		maskSize: "contain",
+	};
 
-  return (
-    <span
-      aria-hidden="true"
-      style={style}
-      className={cn("inline-block shrink-0 bg-current align-middle", className)}
-    />
-  );
+	return (
+		<span
+			aria-hidden="true"
+			style={style}
+			className={cn(
+				"inline-block shrink-0 bg-current align-middle",
+				className,
+			)}
+		/>
+	);
 }
