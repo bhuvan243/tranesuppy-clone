@@ -41,13 +41,13 @@ export function MegaMenu({ onNavigate }: MegaMenuProps) {
 
 	function selectL1(node: CategoryNode) {
 		setActiveL1Id(node.id);
-		setActiveL2Id(node.children?.[0]?.id);
-		setActiveL3Id(node.children?.[0]?.children?.[0]?.id);
+		setActiveL2Id(undefined);
+		setActiveL3Id(undefined);
 	}
 
 	function selectL2(node: CategoryNode) {
 		setActiveL2Id(node.id);
-		setActiveL3Id(node.children?.[0]?.id);
+		setActiveL3Id(undefined);
 	}
 
 	function selectL3(node: CategoryNode) {
@@ -57,17 +57,17 @@ export function MegaMenu({ onNavigate }: MegaMenuProps) {
 	return (
 		<div className="absolute left-0 top-full z-30 w-full max-w-[1200px] rounded-b-md border border-t-0 border-border-divider bg-white shadow-xl">
 			{/* Top row: 3 level-1 categories */}
-			<div className="flex flex-wrap items-stretch gap-2 border-b border-border-divider px-6 py-3">
+			<div className="flex flex-wrap items-stretch gap-2.5 border-b border-border-divider px-6">
 				{CATEGORY_TREE.map((node) => (
 					<button
 						key={node.id}
 						type="button"
 						onMouseEnter={() => selectL1(node)}
 						className={cn(
-							"flex shrink-0 items-center gap-2 rounded-md px-4 py-2.5 text-[16px] font-semibold whitespace-nowrap transition-colors",
+							"flex shrink-0 items-center gap-2 rounded-none border-b-[3px] px-4 py-4 text-[16px] font-semibold whitespace-nowrap transition-colors",
 							activeL1Id === node.id
-								? "bg-surface-hover text-accent"
-								: "text-text-primary hover:bg-surface-hover hover:text-accent",
+								? "border-accent text-accent"
+								: "border-transparent text-text-primary hover:text-accent hover:border-accent",
 						)}
 					>
 						{node.icon && (
@@ -79,7 +79,6 @@ export function MegaMenu({ onNavigate }: MegaMenuProps) {
 						<Link
 							href={`${ROUTES.categorySummary}?selection=${toSelectionKey(node.id)}`}
 							onClick={onNavigate}
-							className="hover:underline"
 						>
 							{node.label}
 						</Link>
@@ -142,7 +141,7 @@ function MenuColumn({
 	isLeafColumn,
 }: MenuColumnProps) {
 	return (
-		<div className="flex flex-1 basis-0 min-w-0 flex-col overflow-y-auto px-4 py-4">
+		<div className="thin-scrollbar flex flex-1 basis-0 min-w-0 flex-col overflow-y-auto px-4 py-4">
 			{title && (
 				<h3 className="mb-3 text-[13px] font-bold uppercase tracking-wide underline underline-offset-2 text-text-primary">
 					{title}
@@ -173,12 +172,14 @@ function MenuColumn({
 								<span className="break-words">
 									{node.label}
 								</span>
-								{hasChildren && (
+								{hasChildren && !isLeafColumn && (
 									<Icon
 										name="chevron-right"
 										className={cn(
-											"w-3.5 h-3.5 shrink-0 text-text-muted group-hover:text-accent",
-											isActive && "text-accent",
+											"h-4 w-4 shrink-0",
+											isActive
+												? "font-semibold text-accent"
+												: "text-text-muted group-hover:text-accent",
 										)}
 									/>
 								)}

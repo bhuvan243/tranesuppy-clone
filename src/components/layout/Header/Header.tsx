@@ -15,7 +15,9 @@ export function Header() {
 			<div className="section-shell bg-surface-header-row1 py-4">
 				<div className="section-inner">
 					<HeaderRow1 />
-					<MobileHeader onOpenMenu={() => setMobileMenuOpen(true)} />
+					<MobileHeader
+						onOpenMenu={() => setMobileMenuOpen((prev) => !prev)}
+					/>
 				</div>
 			</div>
 

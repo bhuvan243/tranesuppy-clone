@@ -33,7 +33,7 @@ export function MobileHeader({ onOpenMenu }: MobileHeaderProps) {
 	const [shipTo, setShipTo] = useState(user?.shipToZip ?? SHIP_TO_OPTIONS[0]);
 
 	return (
-		<div className="flex md:hidden flex-col gap-3 py-3">
+		<div className="flex md:hidden flex-col gap-3">
 			{/* Row 1: menu - logo - (language | account+cart) */}
 			<div className="flex items-center justify-between h-[42px]">
 				<button

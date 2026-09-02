@@ -1,12 +1,12 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useRouter, usePathname } from "next/navigation";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { Icon } from "@/components/icons/Icon";
 import { getMobileNavRoot, type MobileNavNode } from "@/utils/mobileNav";
-import { useAuth, getInitials } from "@/context/AuthContext";
-import { ROUTES, withRedirect } from "@/constants/routes";
-import { PrimaryButton, SecondaryButton } from "@/components/ui/Button";
+import { useAuth } from "@/context/AuthContext";
+import { ROUTES } from "@/constants/routes";
 import { cn } from "@/utils/cn";
 
 interface MobileMenuProps {
@@ -21,8 +21,7 @@ interface MenuLevel {
 
 export function MobileMenu({ open, onClose }: MobileMenuProps) {
 	const router = useRouter();
-	const pathname = usePathname();
-	const { user, logout } = useAuth();
+	const { user } = useAuth();
 	const [stack, setStack] = useState<MenuLevel[]>(() => [
 		{ items: getMobileNavRoot(!!user) },
 	]);
@@ -73,7 +72,7 @@ export function MobileMenu({ open, onClose }: MobileMenuProps) {
 			{/* Backdrop */}
 			<div
 				className={cn(
-					"fixed inset-0 z-40 bg-black/40 transition-opacity duration-200 md:hidden",
+					"fixed inset-0 top-[65px] z-40 bg-black/40 transition-opacity duration-200 md:hidden",
 					open
 						? "opacity-100 pointer-events-auto"
 						: "opacity-0 pointer-events-none",
@@ -85,7 +84,7 @@ export function MobileMenu({ open, onClose }: MobileMenuProps) {
 			{/* Drawer */}
 			<aside
 				className={cn(
-					"fixed inset-y-0 left-0 z-50 flex w-[85vw] max-w-[360px] flex-col bg-white shadow-2xl transition-transform duration-300 ease-out md:hidden",
+					"fixed inset-y-0 left-0 top-[65px] z-50 flex w-[85vw] max-w-90 flex-col bg-white shadow-2xl transition-transform duration-300 ease-out md:hidden",
 					open ? "translate-x-0" : "-translate-x-full",
 				)}
 				role="dialog"
@@ -138,7 +137,15 @@ export function MobileMenu({ open, onClose }: MobileMenuProps) {
 											}
 											className="flex-1 text-left px-3 py-3 text-[16px] font-medium text-text-primary hover:bg-surface-hover transition-colors"
 										>
-											{node.label}
+											<span className="flex items-center gap-3">
+												{node.icon && (
+													<Icon
+														name={node.icon}
+														className="h-5 w-5"
+													/>
+												)}
+												{node.label}
+											</span>
 										</button>
 										{hasChildren && (
 											<button
@@ -165,53 +172,15 @@ export function MobileMenu({ open, onClose }: MobileMenuProps) {
 				{/* Account section - only shown at the root level */}
 				{stack.length === 1 && (
 					<div className="border-t border-border-divider p-4">
-						{user ? (
-							<div className="flex items-center justify-between gap-3">
-								<div className="flex items-center gap-2.5 min-w-0">
-									<span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-account-pill text-[12px] font-bold text-white">
-										{getInitials(user.name)}
-									</span>
-									<div className="min-w-0">
-										<p className="text-[14px] font-semibold text-text-primary text-ellipsis-line">
-											{user.name}
-										</p>
-										<p className="text-[12px] text-text-muted text-ellipsis-line">
-											{user.company}
-										</p>
-									</div>
-								</div>
-								<button
-									type="button"
-									onClick={() => {
-										logout();
-										onClose();
-										router.push(ROUTES.home);
-									}}
-									className="shrink-0 text-[13px] font-semibold text-accent"
-								>
-									Logout
-								</button>
-							</div>
-						) : (
-							<div className="flex items-center gap-2">
-								<PrimaryButton
-									href={withRedirect(ROUTES.login, pathname)}
-									onClick={onClose}
-									className="flex-1"
-								>
-									Login
-								</PrimaryButton>
-								<SecondaryButton
-									href={withRedirect(
-										ROUTES.register,
-										pathname,
-									)}
-									onClick={onClose}
-									className="flex-1"
-								>
-									Create Account
-								</SecondaryButton>
-							</div>
+						{user && (
+							<Link
+								href={ROUTES.checkout}
+								onClick={onClose}
+								className="flex h-12 w-full items-center justify-center gap-2 rounded-2xl bg-text-primary text-[16px] font-semibold text-white transition-colors hover:bg-black/80"
+							>
+								<Icon name="bolt" className="h-5 w-5" />
+								Quick Order
+							</Link>
 						)}
 					</div>
 				)}

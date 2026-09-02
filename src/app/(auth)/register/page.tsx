@@ -84,7 +84,7 @@ function RegisterForm() {
 	);
 
 	return (
-		<div className="register-page">
+		<div className="register-page mt-5">
 			<nav className="register-breadcrumb" aria-label="Breadcrumb">
 				<Link href={ROUTES.home}>Home</Link>
 				<span>›</span>

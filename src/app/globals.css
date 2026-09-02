@@ -199,7 +199,7 @@
 
 .register-page {
     color: #062719;
-    font-size: 10px;
+    font-size: 15px;
 }
 
 .register-breadcrumb {
@@ -207,7 +207,7 @@
     align-items: center;
     gap: 7px;
     color: #555555;
-    font-size: 9px;
+    font-size: 14px;
 }
 
 .register-breadcrumb a:hover,
@@ -217,7 +217,7 @@
 
 .register-page>h1 {
     margin-top: 17px;
-    font-size: 16px;
+    font-size: 22px;
     font-weight: 700;
 }
 
@@ -229,7 +229,7 @@
 
 .register-content {
     display: grid;
-    grid-template-columns: minmax(0, 365px) 268px;
+    grid-template-columns: 65% minmax(300px, 100%);
     gap: 40px;
     align-items: start;
     margin-top: 18px;
@@ -237,7 +237,7 @@
 
 .register-form h2 {
     margin: 0;
-    font-size: 14px;
+    font-size: 18px;
     font-weight: 700;
 }
 
@@ -262,9 +262,9 @@
     display: flex;
     min-width: 0;
     flex-direction: column;
-    gap: 3px;
+    gap: 5px;
     color: #444444;
-    font-size: 9px;
+    font-size: 14px;
 }
 
 .register-control span b {
@@ -274,13 +274,13 @@
 
 .register-input {
     width: 100%;
-    height: 25px;
+    height: 40px;
     border: 1px solid #888888;
     border-radius: 8px;
     background: #ffffff;
-    padding: 0 7px;
+    padding: 0 10px;
     color: #333333;
-    font-size: 9px;
+    font-size: 14px;
     outline: none;
 }
 
@@ -301,13 +301,13 @@
 
 .store-button {
     align-self: flex-start;
-    height: 27px;
-    padding: 0 12px;
+    height: 42px;
+    padding: 0 16px;
     border: 1px solid #d7d7d7;
     border-radius: 9px;
     background: #ffffff;
     color: #222222;
-    font-size: 9px;
+    font-size: 14px;
     font-weight: 600;
 }
 
@@ -321,7 +321,7 @@
     padding: 0;
     border: 0;
     color: #444444;
-    font-size: 9px;
+    font-size: 14px;
 }
 
 .register-existing legend {
@@ -351,7 +351,7 @@
 }
 
 .register-control textarea {
-    min-height: 43px;
+    min-height: 68px;
     resize: vertical;
     border: 1px solid #888888;
     border-radius: 8px;
@@ -361,19 +361,19 @@
 .register-consent {
     margin-top: 15px;
     color: #333333;
-    font-size: 8px;
+    font-size: 12px;
     line-height: 1.35;
 }
 
 .register-submit {
-    height: 25px;
+    height: 40px;
     margin-top: 8px;
-    padding: 0 13px;
+    padding: 0 18px;
     border: 0;
     border-radius: 8px;
     background: #cccccc;
     color: #ffffff;
-    font-size: 9px;
+    font-size: 14px;
     font-weight: 600;
 }
 
@@ -399,7 +399,7 @@
 .register-login {
     margin-top: 18px;
     color: #555555;
-    font-size: 10px;
+    font-size: 15px;
 }
 
 .register-login a {
@@ -1179,7 +1179,7 @@
     white-space: nowrap;
 }
 
-/* Thin scrollbar used in the mega menu's level-1 rail on constrained widths */
+/* Thin scrollbar used by mega menu columns when their content overflows */
 .thin-scrollbar {
     scrollbar-width: thin;
     scrollbar-color: var(--color-border-default) transparent;

@@ -48,16 +48,13 @@ export function NavBar() {
 								ref={shopByCategoryRef}
 								className="h-full"
 								onMouseEnter={() => setMegaMenuOpen(true)}
-								// onMouseLeave={() => setMegaMenuOpen(false)}
+								onMouseLeave={() => setMegaMenuOpen(false)}
 							>
-								<button
-									type="button"
-									onClick={() =>
-										setMegaMenuOpen((prev) => !prev)
-									}
-									aria-expanded={megaMenuOpen}
+								<Link
+									href={item.href}
+									onClick={() => setMegaMenuOpen(false)}
 									className={cn(
-										"flex h-full items-center gap-1.5 px-4 text-[16px] font-semibold border-b-[3px] transition-colors",
+										"flex h-full items-center gap-1.5 px-4 text-[16px] font-semibold border-b-[3px] transition-colors text-nowrap",
 										isActive || megaMenuOpen
 											? "text-accent border-accent"
 											: "border-transparent text-text-primary hover:text-accent hover:border-accent",
@@ -71,7 +68,7 @@ export function NavBar() {
 											megaMenuOpen && "rotate-180",
 										)}
 									/>
-								</button>
+								</Link>
 								{megaMenuOpen && (
 									<MegaMenu
 										onNavigate={() =>
@@ -88,7 +85,7 @@ export function NavBar() {
 							<Link
 								href={item.href}
 								className={cn(
-									"flex h-full items-center px-4 text-[16px] font-semibold border-b-[3px] transition-colors",
+									"flex h-full items-center px-4 text-[16px] font-semibold border-b-[3px] transition-colors text-nowrap",
 									isActive
 										? "text-accent border-accent"
 										: "border-transparent text-text-primary hover:text-accent hover:border-accent",

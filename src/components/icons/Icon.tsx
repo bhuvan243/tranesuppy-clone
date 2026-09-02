@@ -11,6 +11,7 @@ export type IconName =
 	| "globe"
 	| "menu"
 	| "close"
+	| "help"
 	| "user"
 	| "pin"
 	| "headset"

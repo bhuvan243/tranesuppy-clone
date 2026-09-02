@@ -45,10 +45,12 @@ export function AccountMenu() {
 
 	return (
 		<div ref={ref} className="relative shrink-0">
-			<div className="flex items-center h-11 rounded-[12px] bg-[#490747] py-[3px] pr-[3px]">
+			<div
+				className="flex items-center h-11 rounded-[12px] bg-[#490747] py-[3px] pr-[3px]"
+				onClick={() => setOpen((prev) => !prev)}
+			>
 				<button
 					type="button"
-					onClick={() => setOpen((prev) => !prev)}
 					aria-haspopup="menu"
 					aria-expanded={open}
 					aria-label="Account menu"
