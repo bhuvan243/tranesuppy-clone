@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { LanguageProvider } from "@/context/LanguageContext";
 import { AuthProvider } from "@/context/AuthContext";
+import { ToastProvider } from "@/context/ToastContext";
 
 export const metadata: Metadata = {
 	title: "TraneSupply",
@@ -19,7 +20,9 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
 		<html lang="en" className="h-full antialiased">
 			<body className="min-h-full flex flex-col">
 				<AuthProvider>
-					<LanguageProvider>{children}</LanguageProvider>
+					<LanguageProvider>
+						<ToastProvider>{children}</ToastProvider>
+					</LanguageProvider>
 				</AuthProvider>
 			</body>
 		</html>

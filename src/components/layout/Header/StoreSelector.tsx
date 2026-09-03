@@ -37,15 +37,12 @@ const parseTimeToMinutes = (time: string): number => {
 };
 
 const formatTimeLabel = (time: string): string => {
-	const [hoursPart, minutesPart = "00"] = time.trim().split(":");
-	const hours = Number(hoursPart);
-	const minutes = Number(minutesPart);
-	const date = new Date();
-	date.setHours(hours, minutes, 0, 0);
-	return date.toLocaleTimeString([], {
-		hour: "numeric",
-		minute: "2-digit",
-	});
+	const totalMinutes = parseTimeToMinutes(time);
+	const hours24 = Math.floor(totalMinutes / 60);
+	const hours12 = hours24 % 12 || 12;
+	const minutes = String(totalMinutes % 60).padStart(2, "0");
+	const meridiem = hours24 >= 12 ? "PM" : "AM";
+	return `${hours12}:${minutes} ${meridiem}`;
 };
 
 const getStoreStatus = (openingTime: string, closingTime: string) => {
@@ -238,7 +235,9 @@ export function StoreSelector({
 						onMouseDown={(event) => event.stopPropagation()}
 					>
 						<header className="store-modal-header">
-							<h2 id="store-modal-title">Select Store</h2>
+							<h2 id="store-modal-title" className="text-[32px]">
+								Select Store
+							</h2>
 							<button
 								type="button"
 								onClick={() => setOpen(false)}
@@ -316,7 +315,7 @@ export function StoreSelector({
 												<h3>
 													<Icon
 														name="store"
-														className="h-[14px] w-[14px]"
+														className="h-4 w-4"
 													/>
 													{store.name}
 												</h3>
@@ -357,14 +356,11 @@ export function StoreSelector({
 												{expanded === store.name && (
 													<div className="store-more-panel">
 														<div className="store-more-row">
-															<span className="store-more-label">
+															<div className="store-more-value-row">
 																<Icon
 																	name="phone"
 																	className="h-[12px] w-[12px]"
 																/>
-																Contact Number
-															</span>
-															<div className="store-more-value-row">
 																<a
 																	href={`tel:${store.phone.replace(/[^\d+]/g, "")}`}
 																	className="store-phone-link"
@@ -398,13 +394,6 @@ export function StoreSelector({
 															</div>
 														</div>
 														<div className="store-more-row">
-															<span className="store-more-label">
-																<Icon
-																	name="clock"
-																	className="h-[12px] w-[12px]"
-																/>
-																Open / Closed
-															</span>
 															<span
 																className={
 																	status.isOpen
@@ -421,21 +410,8 @@ export function StoreSelector({
 															</span>
 														</div>
 														<div className="store-more-row">
-															<span className="store-more-label">
-																<Icon
-																	name="clock"
-																	className="h-[12px] w-[12px]"
-																/>
-																Hours
-															</span>
 															<span className="store-more-value">
-																{
-																	store.openingTime
-																}{" "}
-																-{" "}
-																{
-																	store.closingTime
-																}
+																{`Hours ${store.openingTime} - ${store.closingTime}`}
 															</span>
 														</div>
 														<div className="store-more-row">

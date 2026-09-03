@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { Icon } from "@/components/icons/Icon";
+import { useToast } from "@/context/ToastContext";
 
 interface ShippingAddressSelectorProps {
 	selected: string;
@@ -84,6 +85,7 @@ export function ShippingAddressSelector({
 	const [selectedId, setSelectedId] = useState(INITIAL_ADDRESSES[0].id);
 	const [editingId, setEditingId] = useState<string | null>(null);
 	const [form, setForm] = useState<AddressForm>(EMPTY_FORM);
+	const { showToast } = useToast();
 
 	useEffect(() => {
 		if (!open) return;
@@ -139,14 +141,24 @@ export function ShippingAddressSelector({
 
 	function selectAddress() {
 		const address = addresses.find((item) => item.id === selectedId);
-		if (address) onSelect(address.zip);
+		if (address) {
+			onSelect(address.zip);
+			showToast(
+				`Shipping Address is updated to ${address.name.toLowerCase()}`,
+			);
+		}
 		setOpen(false);
 	}
 
-	const selectedAddress = addresses.find(
-		(address) => address.id === selectedId,
+	function openSelector() {
+		const defaultAddress = addresses.find((address) => address.primary);
+		if (defaultAddress) setSelectedId(defaultAddress.id);
+		setOpen(true);
+	}
+
+	const isDefaultSelected = addresses.some(
+		(address) => address.id === selectedId && address.primary,
 	);
-	const isDefaultSelected = Boolean(selectedAddress?.primary);
 
 	return (
 		<>
@@ -156,7 +168,7 @@ export function ShippingAddressSelector({
 					"flex max-w-45 h-11 shrink-0 items-center gap-1.5 text-[14px] font-medium text-text-primary bg-[#E9E9E9] rounded-[16px] px-[12px] py-[8px]",
 					className,
 				].join(" ")}
-				onClick={() => setOpen(true)}
+				onClick={openSelector}
 				aria-haspopup="dialog"
 				aria-expanded={open}
 			>
@@ -177,7 +189,7 @@ export function ShippingAddressSelector({
 					onMouseDown={() => setOpen(false)}
 				>
 					<section
-						className="address-modal"
+						className={`address-modal ${editingId ? "address-modal-editor" : ""}`}
 						role="dialog"
 						aria-modal="true"
 						aria-labelledby="address-modal-title"
@@ -204,7 +216,7 @@ export function ShippingAddressSelector({
 									>
 										<Icon
 											name="close"
-											className="h-[18px] w-[18px]"
+											className="h-6 w-6"
 										/>
 									</button>
 								</header>
@@ -214,10 +226,7 @@ export function ShippingAddressSelector({
 										className="address-add-button"
 										onClick={startAdd}
 									>
-										<Icon
-											name="plus"
-											className="h-[15px] w-[15px]"
-										/>{" "}
+										<Icon name="plus" className="h-5 w-5" />{" "}
 										Add a New Address
 									</button>
 									<p className="address-info">
@@ -231,6 +240,10 @@ export function ShippingAddressSelector({
 												className={`address-card ${address.id === selectedId ? "address-card-selected" : ""}`}
 											>
 												<label>
+													<Icon
+														name="pin"
+														className="address-card-pin"
+													/>
 													<input
 														type="radio"
 														name="shipping-address"
@@ -257,7 +270,7 @@ export function ShippingAddressSelector({
 														</small>
 														{address.primary && (
 															<em>
-																✓ Primary
+																✓ Default
 																Address
 															</em>
 														)}
@@ -274,8 +287,7 @@ export function ShippingAddressSelector({
 													<Icon
 														name="edit"
 														className="h-[14px] w-[14px]"
-													/>{" "}
-													Edit
+													/>
 												</button>
 											</article>
 										))}
@@ -357,7 +369,9 @@ function AddressEditor({
 			</header>
 			<div className="address-editor-body">
 				<div className="address-editor-grid">
-					{field("name", "Name", "Main Office")}
+					<div className="address-form-span-2">
+						{field("name", "Name", "Main Office")}
+					</div>
 					<label className="address-form-control">
 						<span>
 							<b>*</b>Country
